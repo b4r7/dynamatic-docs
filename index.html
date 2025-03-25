@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamatic HTTP Control Demo</title>
+    <link rel="stylesheet" href="reset.css">
+    <style>
+        body {margin: 1rem; }
+
+        .controls {
+            display: flex;
+            gap: 1rem; 
+            margin-top: 2rem;   
+                        
+        }
+        .controls > div {
+            flex: 1;
+            
+        }
+        .buttons {
+            display: flex;
+            height: 5rem;
+            font-size: 3rem;
+        }
+
+        .buttons > * {
+            flex: 1;
+        }
+
+        input {            
+            width: 4ch;
+            text-align: center;
+        }
+        
+
+    </style>
+</head>
+<body>
+    <h1>Dynamatic Demo</h1>
+    <div class="controls">
+        <div class="settings">
+            <div class="title">URL</div>
+            <div class="buttons">
+                <input type="text" id="settings_url">
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        
+        <div class="wire_feed">
+            <div class="title">Wire Feed</div>
+            <div class="buttons">
+                <button id="feed_back">-</button>
+                <input id="feed_value" type="number" value="10">
+                <button id="feed_forward">+</button>
+            </div>            
+        </div>
+        <div class="clamp">
+            <div class="title">Clamp</div>
+            <div class="buttons">
+                <button id="clamp_open">Open</button>                
+                <button id="clamp_close">Close</button>
+            </div>            
+        </div>
+
+    </div>
+
+    <div class="controls">
+        <div class="make_wire">
+            <div class="title">Make wire (Send GCODE)</div>
+            <div class="buttons">
+                <input id="cmd_length" type="number" value="100">                
+                <button id="cmd_makewire">Make Wire</button>
+            </div>            
+        </div>
+    </div>
+
+
+    <form>
+        
+    </form>
+
+
+
+    <script src="dynamatic.js"></script>
+    <script>
+        //UI Stuff        
+        const settings_url = document.querySelector("#settings_url");
+
+        const feed_back = document.querySelector("#feed_back");
+        const feed_forward = document.querySelector("#feed_forward");
+        const feed_value = document.querySelector("#feed_value");
+        
+        const clamp_open = document.querySelector("#clamp_open");
+        const clamp_close = document.querySelector("#clamp_close");
+        
+        const cmd_length = document.querySelector("#cmd_length");
+        const cmd_makewire = document.querySelector("#cmd_makewire");
+        
+        settings_url.value = baseUrl;
+
+               
+        settings_url.addEventListener("change", (e) => {
+            e.preventDefault();
+            baseUrl = e.target.value;
+        })
+
+        feed_back.addEventListener("click", (e) => {
+            e.preventDefault();
+            wireFeed(-feed_value.value);
+        })
+        feed_forward.addEventListener("click", (e) => {
+            e.preventDefault();
+            wireFeed(feed_value.value);
+        })
+
+        clamp_open.addEventListener("click", (e) => {
+            e.preventDefault();
+            clampOpen();
+        })
+        clamp_close.addEventListener("click", (e) => {
+            e.preventDefault();
+            clampClose();
+        })
+
+
+        cmd_makewire.addEventListener("click", (e) => {
+            e.preventDefault();
+            makeWire(cmd_length.value);    
+        })
+
+
+    </script>
+</body>
+</html>
